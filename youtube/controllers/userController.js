@@ -11,7 +11,7 @@ const registerUser = asyncHandler(async(req,res)=>{
         throw new ApiError(400, "All fields are required")
      }
     
-    const existedUser  = await User.User.findOne({
+    const existedUser  = await User.findOne({
         $or:[{username},{email}]
      })
 
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async(req,res)=>{
     var avatar;
      try {
         avatar = await uploadOnCloudinary(avatarLocalPath)
-        console.log("Upload avatar", avatar)
+      //   console.log("Upload avatar", avatar)
      } catch (error) {
         console.log("Error uploading avatar", error)
         throw new ApiError(500, "Failed to upload avatar")
@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async(req,res)=>{
      var coverImage;
      try {
         coverImage = await uploadOnCloudinary(coverLocalPath)
-        console.log("Upload coverimage", coverImage)
+      //   console.log("Upload coverimage", coverImage)
      } catch (error) {
         console.log("Error uploading cover image", error)
         throw new ApiError(500, "Failed to upload cover image")
@@ -49,7 +49,7 @@ const registerUser = asyncHandler(async(req,res)=>{
     //     coverImage = await uploadOnCloudinary(coverLocalPath)
     //  }
 
-     const user = await User.User.create({
+     const user = await User.create({
         fullname,
         avatar:avatar.url,
         coverImage:coverImage.url,
@@ -58,7 +58,7 @@ const registerUser = asyncHandler(async(req,res)=>{
         username:username.toLowerCase()
      })
 
-    const createdUser =  await User.User.findById(user._id).select(
+    const createdUser =  await User.findById(user._id).select(
         "-password -refreshToken"
     )
 
@@ -66,15 +66,15 @@ const registerUser = asyncHandler(async(req,res)=>{
         throw new ApiError(500, "Something went wrong")
     }
 
-    return res.status(201).json( new ApiResponse(201,createdUser,"User registered successfully") )
+    return res.status(201).json( new ApiResponse(201, createdUser,"User registered successfully") )
      
     } catch (error) {
         console.log(error)
         if(avatar){
-            await deleteFromCloudinary(avatar._id)
+            await deleteFromCloudinary(avatar.public_id)
         }
         if(coverImage){
-            await deleteFromCloudinary(coverImage._id)
+            await deleteFromCloudinary(coverImage.public_id)
         }
       throw new ApiError(500, "Failed to upload image and deleted")
     }     
