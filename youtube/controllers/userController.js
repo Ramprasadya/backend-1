@@ -1,6 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import User from "../models/userModels.js";
+import jwt from "jsonwebtoken";
 import {
   uploadOnCloudinary,
   deleteFromCloudinary,
@@ -151,4 +152,50 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser, loginUser };
+const logoutUser =asyncHandler(async (req,res)=>{
+  await User.findByIdAndUpdate(
+    // Todo : write middleware
+  )
+})
+
+const refreshAccessToken = asyncHandler(async (req, res) => {
+  const IncomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken;
+  if (!IncomingRefreshToken) {
+    throw new ApiError(401, "Refresh token is required");
+  }
+  try {
+    const decodedToken = jwt.verify(
+      IncomingRefreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+    const user = await User.findById(decodedToken?._id);
+    if (!user) {
+      throw new ApiError(401, "Invalid refresh token");
+    }
+    if (IncomingRefreshToken !== user?.refreshToken) {
+      throw new ApiError(401, "Invalid refresh token");
+    }
+    const options = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    };
+    const { accessToken, refreshToken: newRefreshToken } =
+      await GenerateAccessAndRefreshToken(user._id);
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", newRefreshToken, options)
+      .json(
+        new ApiResponse(
+          200,
+          { accessToken, refreshToken: newRefreshToken },
+          "Access token refresh successfully"
+        )
+      );
+  } catch (error) {
+     console.log("Error uploading cover image", error);
+      throw new ApiError(500, "Failed to upload cover image");
+  }
+});
+
+export { registerUser, loginUser, refreshAccessToken };
