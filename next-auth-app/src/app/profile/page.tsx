@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("/api/users/logout")
+      await axios.get("/api/users/logout");
 
       router.push("/login");
     } catch (error) {
@@ -18,26 +18,23 @@ const Profile = () => {
     }
   };
 
-  const [data, setData] = useState<any>("")
+  const [data, setData] = useState<any>("");
 
-  const getUserDetails =async()=>{
-     const response  = await axios.get(`/api/users/me`)
-     console.log(response.data.data)
-     setData(response.data?.data)
-  }
-
-
+  const getUserDetails = async () => {
+    const response = await axios.get(`/api/users/me`);
+    console.log(response.data.data);
+    setData(response.data?.data);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4">
       <div className="bg-gray-900 text-white p-8 rounded-2xl shadow-xl border border-gray-800 w-full max-w-md text-center">
-
-        <h1 className="text-2xl font-bold mb-6">
-          Profile Page
-        </h1>
-        <h2  className=" py-2 px-4 bg bg-green-400 my-2" >
-          <Link href={`/profile/${data._id}`} >{data._id}</Link>
-        </h2>
+        <h1 className="text-2xl font-bold mb-6">Profile Page</h1>
+        {data._id && (
+          <h2 className=" py-2 px-4 bg bg-green-400 my-2">
+            <Link href={`/profile/${data._id}`}>{data._id}</Link>
+          </h2>
+        )}
 
         <button
           onClick={handleLogout}
@@ -53,7 +50,6 @@ const Profile = () => {
         >
           Get Profile Data
         </button>
-
       </div>
     </div>
   );

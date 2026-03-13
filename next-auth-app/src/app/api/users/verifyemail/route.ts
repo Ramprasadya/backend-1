@@ -14,12 +14,12 @@ export async function POST(request:NextRequest){
         if(!user){
             return NextResponse.json({message:"Invalid token"}, {status:400})
         }
-        console.log(user)
+        // console.log(user)
         user.isVerified = true
         user.verifyToken = undefined
         user.verifyTokenExpiry = undefined 
     
-        // await user.save()
+        await user.save()
 
         return NextResponse.json({message:"Email is verified", success:true})
 

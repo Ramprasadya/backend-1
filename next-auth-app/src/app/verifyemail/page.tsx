@@ -10,8 +10,13 @@ const page = () => {
 
     const verifyEmail =async()=>{
         try {
-             await axios.post("/api/user/verifyemail", {token})
-             setVerified(true)
+             const res = await axios.post("/api/users/verifyemail", {token})
+             if(res.data.success){
+                // console.log(res.data)
+                 setVerified(true)
+             }else{
+                console.log("something went wrong ....")
+             }
 
         } catch (error) {
             setError(true)
@@ -33,7 +38,7 @@ const page = () => {
   return (
     <div className='flex flex-col min-h-screen w-full justify-center items-center py-2' >
            <h1 className='text-4xl' >  Verify Email</h1>
-            <h2 className=' py-2 px-4 bg-orange-500 text-black ' >{token ? `${token}` : "No Token "}</h2>
+            <h2 className=' py-2 px-4 bg-green-500 text-white ' >{token ? `${token}` : "No Token "}</h2>
             {
                 verified && (
                     <div>
