@@ -1,9 +1,10 @@
 "use client"
+import Loading from '@/components/Loading'
 import Navbar from '@/components/Navbar'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 const page = () => {
@@ -14,17 +15,31 @@ const page = () => {
     email: ""
   })
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const Login = async () => {
+    setLoading(true)
     try {
       const response = await axios.post("/api/users/login", user)
       // console.log(response.data)
       toast.success(response.data.message)
-      router.push("/profile")
-    } catch (error:any) {
-      console.log(error)
+      router.push("/dashboard")
+      setLoading(false)
+    } catch (error: any) {
+      // console.log(error)
       toast.error(error.message)
+      setLoading(false)
     }
   }
+
+
+  useEffect(()=>{
+     const token = localStorage.getItem("token")
+     if(!token){
+       router.push("/dashboard")
+     }
+  },[])
+
   return (
     <>
       <Navbar />
@@ -66,32 +81,32 @@ const page = () => {
               Login
             </button>
 
-           <div className="space-y-4 text-center">
+            <div className="space-y-4 text-center">
 
-  <p className="text-sm text-gray-400">
-    Forgot your password?{" "}
-    <Link
-      href="/reset-password"
-      className="text-indigo-400 hover:text-indigo-300 hover:underline"
-    >
-      Reset Password
-    </Link>
-  </p>
+              <p className="text-sm text-gray-400">
+                Forgot your password?{" "}
+                <Link
+                  href="/forgotpassword"
+                  className="text-indigo-400 hover:text-indigo-300 hover:underline"
+                >
+                  Reset Password
+                </Link>
+              </p>
+              <p className="text-sm text-gray-400">
+                Don’t have an account?{" "}
+                <Link
+                  href="/signup"
+                  className="text-indigo-400 hover:text-indigo-300 hover:underline"
+                >
+                  Create Account
+                </Link>
+              </p>
 
-  <p className="text-sm text-gray-400">
-    Don’t have an account?{" "}
-    <Link
-      href="/signup"
-      className="text-indigo-400 hover:text-indigo-300 hover:underline"
-    >
-      Create Account
-    </Link>
-  </p>
-
-</div>
+            </div>
 
           </div>
         </div>
+        {loading && <Loading />}
       </div>
     </>
   )

@@ -1,23 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "sonner";
+import Navbar from "@/components/Navbar";
 
 const Profile = () => {
-  const router = useRouter();
+ 
 
-  const handleLogout = async () => {
-    try {
-      const res = await axios.get("/api/users/logout");
-      toast.success(res.data.message)
-      router.push("/login");
-    } catch (error) {
-      console.log("Logout failed");
-    }
-  };
+
 
   const [data, setData] = useState<any>("");
 
@@ -28,9 +20,9 @@ const Profile = () => {
     setData(response.data?.data)
   }
 
-
-
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4">
       <div className="bg-gray-900 text-white p-8 rounded-2xl shadow-xl border border-gray-800 w-full max-w-md">
 
@@ -75,13 +67,7 @@ const Profile = () => {
         {/* Buttons */}
         <div className="mt-6 space-y-3">
 
-          <button
-            onClick={handleLogout}
-            className="w-full bg-red-600 py-3 rounded-lg font-semibold 
-                   hover:bg-red-700 transition duration-200 active:scale-95"
-          >
-            Logout
-          </button>
+          
 
           <button
             onClick={getUserDetails}
@@ -95,6 +81,7 @@ const Profile = () => {
 
       </div>
     </div>
+    </>
   );
 };
 

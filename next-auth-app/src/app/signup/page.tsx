@@ -1,4 +1,5 @@
 "use client"
+import Loading from '@/components/Loading'
 import Navbar from '@/components/Navbar'
 import axios from 'axios'
 import Link from 'next/link'
@@ -14,17 +15,23 @@ const page = () => {
     username: ""
   })
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   const Signup = async () => {
+    setLoading(true)
     try {
+      
       const response = await axios.post("/api/users/signup", user)
       // console.log(response.data)
       toast.success(response.data.message)
       router.push("/login")
+      setLoading(false)
     } catch (error:any) {
       console.log(error)
       toast.error(error.message)
+      setLoading(false)
     }
   }
 
@@ -98,6 +105,7 @@ const page = () => {
 
           </div>
         </div>
+        {loading && <Loading />}
       </div>
     </>
   )

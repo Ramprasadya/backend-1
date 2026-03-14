@@ -8,39 +8,44 @@ const page = () => {
     const [token, setToken] = useState<string>("")
     const [verified, setVerified] = useState<boolean>(false)
     const [error, setError] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
-    const verifyEmail =async()=>{
+    const verifyEmail = async () => {
+        setLoading(true)
         try {
-             const res = await axios.post("/api/users/verifyemail", {token})
-             if(res.data.success){
+            const res = await axios.post("/api/users/verifyemail", { token })
+            if (res.data.success) {
                 // console.log(res.data)
-                 toast.success(res.data.message)
-                 setVerified(true)
-             }else{
-                console.log("something went wrong ....")
-             }
+                toast.success(res.data.message)
+                setVerified(true)
+                setLoading(false)
+            } else {
+                toast.error("something went wrong ....")
+                setLoading(false)
+            }
 
-        } catch (error:any) {
+        } catch (error: any) {
             setError(true)
             console.log(error)
             toast.error(error.message)
+            setLoading(false)
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const urlToken = window.location.search.split("=")[1]
         setToken(urlToken || "")
-    },[])
+    }, [])
 
-    useEffect(()=>{
-      if(token.length>0){
-        verifyEmail()
-      }
-    },[token])
+    useEffect(() => {
+        if (token.length > 0) {
+            verifyEmail()
+        }
+    }, [token])
 
-  return (
-    <div className='flex flex-col min-h-screen w-full justify-center items-center py-2' >
-           <h1 className='text-4xl' >  Verify Email</h1>
+    return (
+        <div className='flex flex-col min-h-screen w-full justify-center items-center py-2' >
+            <h1 className='text-4xl' >  Verify Email</h1>
             <h2 className=' py-2 px-4 bg-green-500 text-white ' >{token ? `${token}` : "No Token "}</h2>
             {
                 verified && (
@@ -54,12 +59,12 @@ const page = () => {
                 error && (
                     <div>
                         <h2 className='text-2xl bg-red-500 text-black'>Error</h2>
-                        
+
                     </div>
                 )
             }
-    </div>
-  )
+        </div>
+    )
 }
 
 export default page

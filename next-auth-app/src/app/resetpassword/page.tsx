@@ -1,28 +1,68 @@
 "use client";
+import Loading from "@/components/Loading";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const Page = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+   
+    // Invalid token check
+    if (!token) {
+      let countdown = 3;
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      const interval = setInterval(() => {
+        toast(
+          `Invalid token. Redirecting to login page in ${countdown}s`,
+          {
+            position: "top-center",
+            style: {
+              background: "white",
+              color: "black",
+              padding: "8px",
+              fontSize:"16px"
+            }
+          }
+        );
+        countdown--;
+
+        if (countdown < 0) {
+          clearInterval(interval);
+          router.push("/");
+        }
+      }, 1000);
+
       return;
     }
+
+    // Password mismatch
+    if (password !== confirmPassword) {
+      toast.warning("Passwords do not match");
+      return;
+    }
+
     try {
+       setLoading(true)
       const res = await axios.post("/api/users/resetverify", {
         password,
         token,
       });
-      console.log(res.data);
-      console.log("Reset password:", password);
-    } catch (error) {
+
+      toast.success(res.data.message);
+
+      router.push("/login");
+      setLoading(false)
+    } catch (error: any) {
       console.log(error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -75,6 +115,7 @@ const Page = () => {
           </button>
         </form>
       </div>
+      {loading && <Loading />}
     </div>
   );
 };
