@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 export default function Home() {
 
@@ -21,7 +20,10 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getUserDetails();
+    const token = localStorage.getItem("token") || " "
+    if(token.length > 1){
+      getUserDetails();
+    }
   }, []);
 
   return (

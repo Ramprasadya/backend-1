@@ -20,9 +20,9 @@ const page = () => {
   const Login = async () => {
     setLoading(true)
     try {
-      const response = await axios.post("/api/users/login", user)
+       await axios.post("/api/users/login", user)
       // console.log(response.data)
-      toast.success(response.data.message)
+      toast.success("Login Successfully")
       router.push("/dashboard")
       setLoading(false)
     } catch (error: any) {

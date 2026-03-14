@@ -11,7 +11,6 @@ const Dashboard = () => {
         try {
             const response = await axios.get(`/api/users/me`)
             // console.log(response.data.data)
-            toast.success(response.data.message)
             setData(response.data?.data)
             
         } catch (error:any) {
