@@ -14,12 +14,13 @@ const page = () => {
              const res = await axios.post("/api/users/verifyemail", {token})
              if(res.data.success){
                 // console.log(res.data)
+                 toast.success(res.data.message)
                  setVerified(true)
              }else{
                 console.log("something went wrong ....")
              }
 
-        } catch (error) {
+        } catch (error:any) {
             setError(true)
             console.log(error)
             toast.error(error.message)
