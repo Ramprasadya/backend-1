@@ -4,6 +4,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 const page = () => {
   const router = useRouter()
@@ -18,10 +19,12 @@ const page = () => {
   const Signup = async () => {
     try {
       const response = await axios.post("/api/users/signup", user)
-      console.log(response.data)
+      // console.log(response.data)
+      toast.success(response.data.message)
       router.push("/login")
-    } catch (error) {
+    } catch (error:any) {
       console.log(error)
+      toast.error(error.message)
     }
   }
 
