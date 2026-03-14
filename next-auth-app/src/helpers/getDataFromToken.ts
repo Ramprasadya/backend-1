@@ -7,6 +7,6 @@ export  const getDataFromToken =(request:NextRequest)=>{
         const decotedToken:any = jwt.verify(Token, process.env.TOKEN_SECRET!)
         return decotedToken.id
      } catch (error:any) {
-        return NextResponse.json({message:error.message})
-     }
+        throw new Error(error.message)
+}
 }

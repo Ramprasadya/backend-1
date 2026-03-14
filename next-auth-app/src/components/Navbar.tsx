@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function Navbar() {
-    const [token, setToken] = useState<string>("")
+    const [token, setToken] = useState<any>(null)
     useEffect(() => {
-        const t = localStorage.getItem("token") || ""
+        const t = JSON.parse(localStorage.getItem("isLogin")  || "false" )
         setToken(t)
     }, [])
     const router = useRouter();
@@ -17,6 +17,7 @@ export default function Navbar() {
         try {
             const res = await axios.get("/api/users/logout");
             toast.success(res.data.message)
+            localStorage.setItem("isLogin",JSON.stringify(false))
             router.push("/login");
         } catch (error) {
             console.log("Logout failed");

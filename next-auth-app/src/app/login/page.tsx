@@ -23,6 +23,7 @@ const page = () => {
        await axios.post("/api/users/login", user)
       // console.log(response.data)
       toast.success("Login Successfully")
+      localStorage.setItem("isLogin", JSON.stringify(true))
       router.push("/dashboard")
       setLoading(false)
     } catch (error: any) {
@@ -33,12 +34,7 @@ const page = () => {
   }
 
 
-  useEffect(()=>{
-     const token = localStorage.getItem("token")
-     if(!token){
-       router.push("/dashboard")
-     }
-  },[])
+
 
   return (
     <>

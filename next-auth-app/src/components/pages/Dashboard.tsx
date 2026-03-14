@@ -10,17 +10,17 @@ const Dashboard = () => {
     const getUserDetails = async () => {
         try {
             const response = await axios.get(`/api/users/me`)
-            // console.log(response.data.data)
+            // console.log(response.data)
             setData(response.data?.data)
-            
-        } catch (error:any) {
+
+        } catch (error: any) {
             toast.error(error.message)
         }
     }
 
-    useEffect(()=>{
-       getUserDetails()
-    },[])
+    useEffect(() => {
+        getUserDetails()
+    }, [])
 
     return (
         <div>
@@ -30,7 +30,7 @@ const Dashboard = () => {
                 <div className="bg-gray-900 text-white p-8 rounded-2xl shadow-xl border border-gray-800 w-full max-w-md">
 
                     <h1 className="text-2xl font-bold mb-6 text-center">
-                       Welcome to Dashboard Page
+                        Welcome to Dashboard Page
                     </h1>
 
                     {/* User Info */}

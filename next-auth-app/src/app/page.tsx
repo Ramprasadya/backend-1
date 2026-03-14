@@ -21,7 +21,7 @@ export default function Home() {
 
   useEffect(() => {
     const token = localStorage.getItem("token") || " "
-    if(token.length > 1){
+    if(token){
       getUserDetails();
     }
   }, []);
