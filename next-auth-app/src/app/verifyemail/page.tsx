@@ -2,6 +2,7 @@
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 const page = () => {
     const [token, setToken] = useState<string>("")
@@ -21,6 +22,7 @@ const page = () => {
         } catch (error) {
             setError(true)
             console.log(error)
+            toast.error(error.message)
         }
     }
 
