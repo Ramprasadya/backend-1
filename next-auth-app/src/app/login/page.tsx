@@ -1,4 +1,5 @@
 "use client"
+import Navbar from '@/components/Navbar'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -22,6 +23,9 @@ const page = () => {
                     }
         }
   return (
+    <>
+    <Navbar/>
+
     <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4">
   <div className="w-full max-w-md bg-gray-900 text-white p-8 rounded-2xl shadow-2xl border border-gray-800">
 
@@ -72,6 +76,7 @@ const page = () => {
     </div>
   </div>
 </div>
+    </>
   )
 }
 
