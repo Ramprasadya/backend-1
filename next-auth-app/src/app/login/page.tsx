@@ -66,15 +66,29 @@ const page = () => {
               Login
             </button>
 
-            <p className="text-center text-sm text-gray-400">
-              Don’t have an account?{" "}
-              <Link
-                href="/signup"
-                className="text-indigo-400 hover:text-indigo-300 hover:underline"
-              >
-                Create Account
-              </Link>
-            </p>
+           <div className="space-y-4 text-center">
+
+  <p className="text-sm text-gray-400">
+    Forgot your password?{" "}
+    <Link
+      href="/reset-password"
+      className="text-indigo-400 hover:text-indigo-300 hover:underline"
+    >
+      Reset Password
+    </Link>
+  </p>
+
+  <p className="text-sm text-gray-400">
+    Don’t have an account?{" "}
+    <Link
+      href="/signup"
+      className="text-indigo-400 hover:text-indigo-300 hover:underline"
+    >
+      Create Account
+    </Link>
+  </p>
+
+</div>
 
           </div>
         </div>
