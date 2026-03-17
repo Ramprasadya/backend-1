@@ -21,8 +21,6 @@ const Dashboard = () => {
     }, [])
 
 
-
-
     return (
         <div className="bg-gray-950 min-h-screen text-white relative w-full">
 
