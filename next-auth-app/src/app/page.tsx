@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || " "
+    const token = JSON.parse(localStorage.getItem("isLogin") || "false" )
     if(token){
       getUserDetails();
     }
