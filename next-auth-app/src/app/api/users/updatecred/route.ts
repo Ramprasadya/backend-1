@@ -17,20 +17,14 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const updateFields: any = {};
-
-    if (username) updateFields.username = username;
-
-    if (Object.keys(updateFields).length === 0) {
-      return NextResponse.json(
-        { message: "No fields provided to update", success: false },
-        { status: 400 }
-      );
-    }
+    const updateFields: any = {
+      username:username,
+      email:email
+    };
 
     // Update user
     const updatedUser = await User.findOneAndUpdate(
-      { email },
+      {email:email},
       updateFields,
       { new: true }
     );
