@@ -49,7 +49,6 @@ const Dashboard = () => {
 
                     </div>
 
-
                     {/* User Info */}
                     {data && (
                         <div className="w-full max-w-3xl bg-gray-900 text-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-800">
