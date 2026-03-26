@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import picture from "../assets/default.jpg"
 import Sidebar from '../sidebar/Sidebar';
+import MainPage from './MainPage';
 
 const Dashboard = () => {
     const { getUserDetails } = useUserContextHook()
@@ -49,47 +50,7 @@ const Dashboard = () => {
 
                     </div>
 
-                    {/* User Info */}
-                    {data && (
-                        <div className="w-full max-w-3xl bg-gray-900 text-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-800">
-
-                            <h2 className="text-xl font-semibold mb-6">
-                                User Information
-                            </h2>
-
-                            <div className="space-y-4 text-left">
-
-                                <div className="bg-gray-800 p-3 rounded-lg">
-                                    <span className="text-gray-400 text-sm">User ID</span>
-                                    <p className="font-mono text-green-400 break-all">
-                                        {data._id}
-                                    </p>
-                                </div>
-
-                                <div className="bg-gray-800 p-3 rounded-lg">
-                                    <span className="text-gray-400 text-sm">Username</span>
-                                    <p className="font-semibold">{data.username}</p>
-                                </div>
-
-                                <div className="bg-gray-800 p-3 rounded-lg">
-                                    <span className="text-gray-400 text-sm">Email</span>
-                                    <p>{data.email}</p>
-                                </div>
-
-                                <div className="bg-gray-800 p-3 rounded-lg flex justify-between">
-                                    <span className="text-gray-400 text-sm">Verified</span>
-                                    <span
-                                        className={`px-2 py-1 text-xs rounded ${data.isVerified ? "bg-green-600" : "bg-red-600"
-                                            }`}
-                                    >
-                                        {data.isVerified ? "Yes" : "No"}
-                                    </span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    )}
+                    <MainPage />
 
                 </div>
 
