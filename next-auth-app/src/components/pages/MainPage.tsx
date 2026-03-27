@@ -2,7 +2,15 @@ import React from 'react'
 
 const MainPage = () => {
   return (
-    <div>MainPage</div>
+    <div>
+      <div>
+         components
+      </div>
+      <div>
+        <button>Copy</button>
+        <button>Preview</button>
+      </div>
+    </div>
   )
 }
 
